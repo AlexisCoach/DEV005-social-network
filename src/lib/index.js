@@ -1,6 +1,15 @@
-// aqui exportaras las funciones que necesites
+import { db, collection, addDoc, getDocs, onSnapshot, orderBy, query } from '../firebase/firestore'
 
-export const myFunction = () => {
-  // aqui tu codigo
-  console.log('Hola mundo!');
-};
+//asigno mi colección a una variable
+const postsCollection = collection(db, 'posts')
+
+export const addPost = (comment) => {
+  addDoc(postsCollection, {
+      comment,
+      date: Date.now()
+    });
+}
+
+export const querySnapshot = getDocs(postsCollection);
+
+export const paintRealTime = (callback) => onSnapshot(query(postsCollection, orderBy('date', 'desc')), callback)
